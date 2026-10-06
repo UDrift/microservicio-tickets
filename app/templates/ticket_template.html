@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Helvetica', 'Arial', sans-serif; font-size: 12px; margin: 20px; color: #333; }
+        .header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 15px; }
+        .header h2 { margin: 0; font-size: 18px; }
+        .info { margin-bottom: 15px; }
+        .info p { margin: 3px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 6px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; font-weight: bold; }
+        .right { text-align: right; }
+        .total-container { text-align: right; margin-top: 15px; font-size: 14px; font-weight: bold; }
+        .footer { text-align: center; margin-top: 30px; font-size: 10px; color: #777; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>TIENDA EN LÍNEA SOA</h2>
+        <p><strong>Comprobante de Compra</strong></p>
+        <p>Folio: <strong>{{ folio }}</strong></p>
+        <p>Fecha de Emisión: {{ fecha }}</p>
+    </div>
+
+    <div class="info">
+        <p><strong>Cliente:</strong> {{ cliente_nombre }}</p>
+        <p><strong>Correo:</strong> {{ cliente_correo }}</p>
+        <p><strong>RFC:</strong> {{ cliente_rfc or 'N/A' }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Cant.</th>
+                <th>Producto</th>
+                <th class="right">P. Unitario</th>
+                <th class="right">Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.cantidad }}</td>
+                <td>{{ item.producto.nombre }}</td>
+                <td class="right">${{ "%.2f"|format(item.precio_unitario) }}</td>
+                <td class="right">${{ "%.2f"|format(item.cantidad * item.precio_unitario) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total-container">
+        <p>TOTAL: ${{ "%.2f"|format(total) }} MXN</p>
+    </div>
+
+    <div class="footer">
+        <p>Gracias por su compra. Conserve este comprobante para cualquier aclaración o garantía.</p>
+    </div>
+</body>
+</html>
